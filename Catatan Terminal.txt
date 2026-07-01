@@ -1,0 +1,4 @@
+Catatan Terminal 
+- "git pull" untuk update kode project
+- "php spark serve" untuk jalanin project
+- "php spark cache:clear" untuk hapus cache/optimalin website

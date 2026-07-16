@@ -90,9 +90,11 @@ php_errors.log
 #-------------------------
 # Automasi PHP Testing & Docs
 #-------------------------
-Zzz/
-docs/
-storage/logs/
+Zzz/*
+docs/*
+storage/logs/*
+@agents/*
+AI_RULES.md
 
 #-------------------------
 # IDE / Development Files

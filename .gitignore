@@ -94,7 +94,7 @@ Zzz/*
 docs/*
 storage/logs/*
 @agents/*
-AI_RULES.md
+AGENTS.md
 
 #-------------------------
 # IDE / Development Files
@@ -138,9 +138,9 @@ _modules/*
 #-------------------------
 # Public Uploads (Manual Uploads)
 #-------------------------
-public/uploads/galeri/*
-!public/uploads/galeri/index.html
+#public/uploads/galeri/*
+#!public/uploads/galeri/index.html
 public/uploads/profil/*
 !public/uploads/profil/index.html
-public/uploads/thumbnail/*
-!public/uploads/thumbnail/index.html
+#public/uploads/thumbnail/*
+#!public/uploads/thumbnail/index.html

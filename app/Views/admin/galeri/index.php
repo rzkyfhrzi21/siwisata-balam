@@ -194,7 +194,7 @@ Galeri Dokumentasi Wisata
                     <div class="mb-3">
                         <label for="media" class="form-label">Pilih Foto / Video <span class="text-danger">*</span></label>
                         <input class="form-control" type="file" id="media" name="media[]" accept="image/*,video/*" multiple required>
-                        <div class="form-text">Anda dapat memilih lebih dari satu file sekaligus (Total maksimal 5 file per destinasi). Ekstensi diizinkan: JPG, PNG (Max 3MB), MP4 (Max 20MB).</div>
+                        <div class="form-text">Anda dapat memilih lebih dari satu file sekaligus (Total maksimal 5 file per destinasi).<br>📷 Foto: JPG, JPEG, PNG, WebP, HEIC, HEIF — maks <strong>5MB</strong> &nbsp;|&nbsp; 🎥 Video: MP4 — maks <strong>20MB</strong></div>
                         <div class="invalid-feedback">Silakan pilih file media.</div>
                     </div>
                 </div>

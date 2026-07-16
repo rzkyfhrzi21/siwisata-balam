@@ -121,20 +121,30 @@ class GaleriController extends BaseController
     ====================================================== */
     public function store()
     {
+        $isAjax = $this->request->isAJAX();
+
+        // Helper: kembalikan error sesuai jenis request
+        $sendError = function (string $msg) use ($isAjax) {
+            if ($isAjax) {
+                return $this->response->setJSON(['status' => 'error', 'message' => $msg]);
+            }
+            return redirect()->back()->with('error', $msg);
+        };
+
         // (1) Ambil data yang dikirim dari Form HTML.
         $destinasi_id = $this->request->getPost('destinasi_id');
         $files        = $this->request->getFiles();
 
         // Pastikan pengguna memilih minimal satu file.
         if (empty($files['media'])) {
-            return redirect()->back()->with('error', 'Pilih minimal satu file foto atau video.');
+            return $sendError('Pilih minimal satu file foto atau video.');
         }
 
         // Cari data destinasi berdasarkan ID yang dipilih.
         $destinasi = $this->destinasiModel->find($destinasi_id);
 
         if (!$destinasi) {
-            return redirect()->back()->with('error', 'Destinasi tidak ditemukan.');
+            return $sendError('Destinasi tidak ditemukan.');
         }
 
         // (2) Hitung jumlah file yang sudah tersimpan pada destinasi ini.
@@ -145,6 +155,12 @@ class GaleriController extends BaseController
         // Hitung jumlah file baru yang sedang diunggah.
         $incomingCount = 0;
 
+        // Format foto yang diizinkan (termasuk format iPhone: HEIC, HEIF, WebP)
+        $allowedImageMimes = [
+            'image/jpeg', 'image/jpg', 'image/png', 'image/webp',
+            'image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence',
+        ];
+
         foreach ($files['media'] as $file) {
             if ($file->isValid() && !$file->hasMoved()) {
                 $incomingCount++;
@@ -154,35 +170,32 @@ class GaleriController extends BaseController
         // Maksimal setiap destinasi hanya boleh memiliki 5 file galeri.
         if ($existingCount + $incomingCount > 5) {
             $sisa = 5 - $existingCount;
-
-            return redirect()->back()->with(
-                'error',
+            return $sendError(
                 "Maksimal 5 file galeri per wisata. Saat ini sudah ada {$existingCount} file. Anda hanya dapat mengunggah maksimal {$sisa} file lagi."
             );
         }
 
-        // (3) Periksa jenis file dan ukuran file yang diunggah.
         foreach ($files['media'] as $file) {
 
             if ($file->isValid() && !$file->hasMoved()) {
 
-                $mimeType = $file->getMimeType();
-                $isImage  = strpos($mimeType, 'image/') === 0;
+                $mimeType = strtolower($file->getMimeType());
+                $isImage  = in_array($mimeType, $allowedImageMimes) || strpos($mimeType, 'image/') === 0;
                 $isVideo  = strpos($mimeType, 'video/') === 0;
 
                 // Ubah ukuran file dari Byte menjadi MegaByte (MB).
                 $sizeMB = $file->getSize() / (1024 * 1024);
 
-                if ($isImage && $sizeMB > 3) {
-                    return redirect()->back()->with('error', 'Gagal: Ukuran foto tidak boleh lebih dari 3MB.');
+                if ($isImage && $sizeMB > 5) {
+                    return $sendError('Gagal: Ukuran foto tidak boleh lebih dari 5MB.');
                 }
 
                 if ($isVideo && $sizeMB > 20) {
-                    return redirect()->back()->with('error', 'Gagal: Ukuran video tidak boleh lebih dari 20MB.');
+                    return $sendError('Gagal: Ukuran video tidak boleh lebih dari 20MB.');
                 }
 
                 if (!$isImage && !$isVideo) {
-                    return redirect()->back()->with('error', 'Gagal: Format file tidak didukung. Hanya Foto/Video.');
+                    return $sendError('Gagal: Format file tidak didukung. Hanya Foto (JPG, PNG, HEIC, WebP) atau Video (MP4).');
                 }
             }
         }
@@ -194,9 +207,8 @@ class GaleriController extends BaseController
 
             if ($file->isValid() && !$file->hasMoved()) {
 
-                $mimeType = $file->getMimeType();
-                $isImage  = strpos($mimeType, 'image/') === 0;
-                $isVideo  = strpos($mimeType, 'video/') === 0;
+                $mimeType = strtolower($file->getMimeType());
+                $isImage  = in_array($mimeType, $allowedImageMimes) || strpos($mimeType, 'image/') === 0;
 
                 // Buat nama file baru secara acak agar tidak bentrok
                 // dengan nama file milik pengguna lain.
@@ -207,9 +219,9 @@ class GaleriController extends BaseController
 
                 // Simpan informasi file ke tabel database.
                 $this->galeriModel->insert([
-                    'destinasi_id' => $destinasi_id,                 // Kolom database => ID destinasi dari Form HTML
-                    'tipe_file'    => $isImage ? 'foto' : 'video',   // Kolom database => Jenis file
-                    'nama_file'    => $newName                       // Kolom database => Nama file yang tersimpan di server
+                    'destinasi_id' => $destinasi_id,
+                    'tipe_file'    => $isImage ? 'foto' : 'video',
+                    'nama_file'    => $newName
                 ]);
 
                 $uploadCount++;
@@ -223,15 +235,19 @@ class GaleriController extends BaseController
                 "Mengunggah {$uploadCount} media untuk destinasi: {$destinasi['nama_wisata']}"
             );
 
+            if ($isAjax) {
+                return $this->response->setJSON([
+                    'status'  => 'success',
+                    'message' => "Berhasil mengunggah {$uploadCount} file untuk {$destinasi['nama_wisata']}."
+                ]);
+            }
+
             return redirect()->to('/admin/galeri')
                 ->with('success', "Berhasil mengunggah {$uploadCount} file.");
         }
 
         // Jika seluruh proses gagal, tampilkan pesan kesalahan.
-        return redirect()->back()->with(
-            'error',
-            'Gagal mengunggah file. Pastikan format file benar (Hanya Foto/Video).'
-        );
+        return $sendError('Gagal mengunggah file. Pastikan format file benar (Hanya Foto/Video).');
     }
 
     /* ======================================================

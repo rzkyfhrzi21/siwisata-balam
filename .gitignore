@@ -95,6 +95,7 @@ docs/*
 storage/logs/*
 @agents/*
 AGENTS.md
+.claude/*
 
 #-------------------------
 # IDE / Development Files

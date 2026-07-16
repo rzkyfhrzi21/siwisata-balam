@@ -140,7 +140,7 @@ _modules/*
 #-------------------------
 #public/uploads/galeri/*
 #!public/uploads/galeri/index.html
-public/uploads/profil/*
-!public/uploads/profil/index.html
+#public/uploads/profil/*
+#!public/uploads/profil/index.html
 #public/uploads/thumbnail/*
 #!public/uploads/thumbnail/index.html

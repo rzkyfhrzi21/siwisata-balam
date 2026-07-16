@@ -1,0 +1,79 @@
+name: Deploy to Production (SSH Tar)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  production-deploy:
+    name: 🚀 Deploy to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Ambil kode terbaru dari GitHub
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      # 2. Setup environment PHP
+      - name: 🛠️ Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      # 3. Install composer dependencies
+      - name: 📦 Install composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # 4. Kompres file proyek dengan mengecualikan folder/file sensitif & dinamis
+      - name: 📦 Compress files
+        run: |
+          tar -czvf ../deploy.tar.gz \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.rtk' \
+            --exclude='@agents' \
+            --exclude='db' \
+            --exclude='laporan' \
+            --exclude='referensi' \
+            --exclude='*.sql' \
+            --exclude='Zzz' \
+            --exclude='docs' \
+            --exclude='tests' \
+            --exclude='node_modules' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='README.md' \
+            --exclude='.env' \
+            --exclude='writable/cache/*' \
+            --exclude='writable/logs/*' \
+            --exclude='writable/session/*' \
+            --exclude='writable/uploads/*' \
+            --exclude='writable/debugbar/*' \
+            --exclude='public/uploads/*' \
+            .
+          mv ../deploy.tar.gz .
+
+      # 5. Unggah file tar.gz ke server cPanel
+      - name: 🚀 Upload via SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy.tar.gz"
+          target: "/home/uucdjd7c/deteksi-padi.web.id" # TODO: Sesuaikan dengan target cPanel Anda
+
+      # 6. Ekstrak file tar.gz di server dan bersihkan arsipnya
+      - name: 🛠️ Extract on Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/uucdjd7c/deteksi-padi.web.id
+            tar -xzvf deploy.tar.gz
+            rm deploy.tar.gz

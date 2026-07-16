@@ -84,8 +84,8 @@ php_errors.log
 #-------------------------
 # Vendor / Node
 #-------------------------
-# vendor/
-# node_modules/
+vendor/
+node_modules/
 
 #-------------------------
 # Automasi PHP Testing & Docs

@@ -63,7 +63,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "deploy.tar.gz"
-          target: "/home/uucdjd7c/deteksi-padi.web.id" # TODO: Sesuaikan dengan target cPanel Anda
+          target: "/home/uucdjd7c/siwisata-balam.web.id" # TODO: Sesuaikan dengan target cPanel Anda
 
       # 6. Ekstrak file tar.gz di server dan bersihkan arsipnya
       - name: 🛠️ Extract on Server
@@ -74,6 +74,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/uucdjd7c/deteksi-padi.web.id
+            cd /home/uucdjd7c/siwisata-balam.web.id
             tar -xzvf deploy.tar.gz
             rm deploy.tar.gz

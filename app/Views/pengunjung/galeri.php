@@ -114,10 +114,10 @@
                             <?php $colClass = $classes[$i % count($classes)]; ?>
                             <div class="col-sm-6 col-md-6 col-lg-4 <?= $colClass ?>">
                                 <div class="gallery-item h-100">
-                                    <?php if ($g['tipe_file'] == 'video'): ?>
-                                        <video src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit:cover;" muted loop onmouseover="this.play()" onmouseout="this.pause()" preload="metadata" onloadedmetadata="this.classList.remove('skeleton-effect')"></video>
+                                    <?php if ($g['tipe_file'] == 'video' && file_upload_ada('galeri', $g['nama_file'])): ?>
+                                        <video src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit:cover;" muted loop onmouseover="this.play()" onmouseout="this.pause()" preload="metadata" onloadedmetadata="this.classList.remove('skeleton-effect')"></video>
                                     <?php else: ?>
-                                        <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" alt="<?= esc($g['nama_wisata']) ?>" style="object-fit:cover;" loading="lazy" onload="this.classList.remove('skeleton-effect')">
+                                        <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" alt="<?= esc($g['nama_wisata']) ?>" style="object-fit:cover;" loading="lazy" onload="this.classList.remove('skeleton-effect')">
                                     <?php endif; ?>
 
                                     <div class="gallery-content">
@@ -159,10 +159,10 @@
                                 <?php $colClass = $classes[$i % count($classes)]; ?>
                                 <div class="col-sm-6 col-md-6 col-lg-4 <?= $colClass ?>">
                                     <div class="gallery-item h-100">
-                                        <?php if ($g['tipe_file'] == 'video'): ?>
-                                            <video src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit:cover;" muted loop onmouseover="this.play()" onmouseout="this.pause()" preload="metadata" onloadedmetadata="this.classList.remove('skeleton-effect')"></video>
+                                        <?php if ($g['tipe_file'] == 'video' && file_upload_ada('galeri', $g['nama_file'])): ?>
+                                            <video src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit:cover;" muted loop onmouseover="this.play()" onmouseout="this.pause()" preload="metadata" onloadedmetadata="this.classList.remove('skeleton-effect')"></video>
                                         <?php else: ?>
-                                            <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" alt="<?= esc($g['nama_wisata']) ?>" style="object-fit:cover;" loading="lazy" onload="this.classList.remove('skeleton-effect')">
+                                            <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" alt="<?= esc($g['nama_wisata']) ?>" style="object-fit:cover;" loading="lazy" onload="this.classList.remove('skeleton-effect')">
                                         <?php endif; ?>
 
                                         <div class="gallery-content">
@@ -210,10 +210,10 @@
                         <?php $index = 0;
                         foreach ($galeriAll as $g): ?>
                             <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
-                                <?php if ($g['tipe_file'] == 'video'): ?>
-                                    <video src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" controls></video>
+                                <?php if ($g['tipe_file'] == 'video' && file_upload_ada('galeri', $g['nama_file'])): ?>
+                                    <video src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" controls></video>
                                 <?php else: ?>
-                                    <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" alt="<?= esc($g['nama_wisata']) ?>">
+                                    <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" alt="<?= esc($g['nama_wisata']) ?>">
                                 <?php endif; ?>
                                 <div class="carousel-caption d-none d-md-block" style="background: rgba(0,0,0,0.6); border-radius: 10px; padding: 10px;">
                                     <h5 class="text-white mb-0"><?= esc($g['nama_wisata']) ?></h5>
@@ -258,10 +258,10 @@
                                 <?php $index = 0;
                                 foreach ($galeriPerKategori[$k['id']] as $g): ?>
                                     <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
-                                        <?php if ($g['tipe_file'] == 'video'): ?>
-                                            <video src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" controls></video>
+                                        <?php if ($g['tipe_file'] == 'video' && file_upload_ada('galeri', $g['nama_file'])): ?>
+                                            <video src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" controls></video>
                                         <?php else: ?>
-                                            <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" alt="<?= esc($g['nama_wisata']) ?>">
+                                            <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain; width: 100%; background: rgba(0,0,0,0.8);" alt="<?= esc($g['nama_wisata']) ?>">
                                         <?php endif; ?>
                                         <div class="carousel-caption d-none d-md-block" style="background: rgba(0,0,0,0.6); border-radius: 10px; padding: 10px;">
                                             <h5 class="text-white mb-0"><?= esc($g['nama_wisata']) ?></h5>

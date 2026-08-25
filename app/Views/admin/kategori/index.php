@@ -67,7 +67,9 @@ Manajemen Kategori Wisata
             </div>
         </div>
 
-        <div id="kategori-table"></div>
+        <div class="table-scroll">
+            <div id="kategori-table"></div>
+        </div>
     </div>
 </div>
 

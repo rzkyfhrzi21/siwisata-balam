@@ -137,7 +137,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="packages-item">
                             <div class="packages-img">
-                                <img src="<?= $d['thumbnail'] ? base_url('uploads/thumbnail/' . $d['thumbnail']) : base_url('assets/img/packages-1.jpg') ?>" 
+                                <img src="<?= gambar_url('thumbnail', $d['thumbnail']) ?>"
                                      class="img-fluid w-100 rounded-top skeleton-effect" 
                                      style="height: 250px; object-fit: cover;"
                                      loading="lazy" onload="this.classList.remove('skeleton-effect')"
@@ -157,7 +157,7 @@
                                     </small>
                                 </div>
                                 <div class="packages-price py-2 px-4" style="width: fit-content; min-width: 100px; white-space: nowrap;">
-                                    <?= esc($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket']) ? 'Gratis' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket'])) ?>
+                                    <?= esc($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket']) ? 'Gratis / Rp 0' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket'])) ?>
                                 </div>
                             </div>
                             <div class="packages-content bg-light">

@@ -101,7 +101,9 @@ Master Data (Kategori & Fasilitas)
                 <input type="text" id="filter-kategori" class="form-control form-control-sm" placeholder="Cari kategori...">
             </div>
         </div>
-        <div id="kategori-table"></div>
+        <div class="table-scroll">
+            <div id="kategori-table"></div>
+        </div>
     </div>
 </div>
 
@@ -131,7 +133,9 @@ Master Data (Kategori & Fasilitas)
                 <input type="text" id="filter-fasilitas" class="form-control form-control-sm" placeholder="Cari fasilitas...">
             </div>
         </div>
-        <div id="fasilitas-table"></div>
+        <div class="table-scroll">
+            <div id="fasilitas-table"></div>
+        </div>
     </div>
 </div>
 

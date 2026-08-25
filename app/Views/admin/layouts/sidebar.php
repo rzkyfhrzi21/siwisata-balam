@@ -58,6 +58,12 @@
 
         <li class="nav-header">PENGATURAN</li>
         <li class="nav-item">
+          <a href="<?= base_url('admin/website') ?>" class="nav-link <?= strpos(uri_string(), 'admin/website') !== false ? 'active' : '' ?>">
+            <i class="nav-icon bi bi-gear"></i>
+            <p>Manajemen Website</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?= base_url('admin/users') ?>" class="nav-link <?= strpos(uri_string(), 'admin/users') !== false ? 'active' : '' ?>">
             <i class="nav-icon bi bi-people"></i>
             <p>Manajemen Admin</p>

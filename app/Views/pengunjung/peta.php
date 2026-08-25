@@ -214,7 +214,7 @@
             'lon'         => (float)$d['longitude'],
             'slug'        => $d['slug'],
             'link_gmaps'  => $d['link_gmaps'] ?? '',
-            'foto'        => $d['thumbnail'] ? base_url('uploads/thumbnail/' . $d['thumbnail']) : base_url('assets/img/packages-1.jpg'),
+            'foto'        => gambar_url('thumbnail', $d['thumbnail']),
         ];
     }, $destinasi)) ?>;
 
@@ -242,7 +242,7 @@
                 + '<p class="mb-1 text-muted small"><i class="fa fa-map-marker-alt me-1"></i>' + (d.alamat || '-') + '</p>'
                 + '<p class="mb-1 text-muted small"><i class="fa fa-calendar-alt me-1"></i>' + d.hari + '</p>'
                 + '<p class="mb-1 text-muted small"><i class="fa fa-clock me-1"></i>' + d.jam + '</p>'
-                + '<p class="mb-2 text-muted small"><i class="fa fa-ticket-alt me-1"></i>' + (d.harga_tiket || 'Gratis') + '</p>'
+                + '<p class="mb-2 text-muted small"><i class="fa fa-ticket-alt me-1"></i>' + (d.harga_tiket && d.harga_tiket != 0 ? (isNaN(d.harga_tiket) ? d.harga_tiket : 'Rp ' + Number(d.harga_tiket).toLocaleString('id-ID')) : 'Gratis / Rp 0') + '</p>'
                 + '<div class="d-flex flex-column gap-2 mt-2">'
                 + '<a href="<?= base_url('wisata') ?>/' + d.slug + '" class="btn btn-popup btn-sm rounded-pill px-3 w-100"><i class="fa fa-info-circle me-1"></i>Lihat Detail</a>'
                 + '<a href="' + googleMapsUrl + '" target="_blank" class="btn btn-popup btn-sm rounded-pill px-3 w-100"><i class="fa fa-directions me-1"></i>Google Maps</a>'

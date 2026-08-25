@@ -1,5 +1,5 @@
 <!--begin::Footer-->
-<footer class="app-footer text-center bg-white border-top py-3">
+<footer class="app-footer text-center border-top py-3">
   <strong>
     Copyright &copy; <?= (date('Y') == '2026') ? '2026' : '2026 - ' . date('Y') ?>&nbsp;
     <a href="#" class="text-decoration-none text-primary fw-bold"><?= esc(getenv('app.siteName') ?? 'SiWisata Balam') ?></a>.

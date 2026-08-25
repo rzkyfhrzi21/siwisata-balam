@@ -7,8 +7,6 @@
    yang dilihat oleh pengguna. 
    
    Tampilan visual untuk mengelola akun administrator.
-   Termasuk fitur grafis "Ranking Aktivitas Admin" yang memotivasi admin
-   karena mereka bisa melihat siapa yang paling sering login dan bekerja.
 ====================================================== */
 ?>
 <?= $this->extend('admin/layouts/app') ?>
@@ -40,23 +38,6 @@ Manajemen Admin
 </div>
 
 <!-- ANALYTICS CHARTS ROW -->
-<div class="row mb-4">
-    <div class="col-lg-12">
-        <div class="card shadow h-100">
-            <div class="card-header border-0">
-                <h3 class="card-title">Ranking Aktivitas Admin</h3>
-            </div>
-            <div class="card-body">
-                <?php if(!empty($userActivity)): ?>
-                    <div id="chart-user-activity"></div>
-                <?php else: ?>
-                    <div class="alert alert-light text-center border">Belum ada data log aktivitas.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="card shadow mb-4">
     <div class="card-header d-flex align-items-center">
         <h3 class="card-title m-0">Daftar Admin</h3>
@@ -79,7 +60,9 @@ Manajemen Admin
             </div>
         </div>
         
-        <div id="users-table"></div>
+        <div class="table-scroll">
+            <div id="users-table"></div>
+        </div>
     </div>
 </div>
 
@@ -335,24 +318,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var editModal = new bootstrap.Modal(document.getElementById('modalEdit'));
         editModal.show();
     };
-
-    // ================= ANALYTICS CHARTS =================
-    const userActivityData = <?= isset($userActivity) ? json_encode($userActivity) : '[]' ?>;
-    if (userActivityData.length > 0 && document.querySelector("#chart-user-activity")) {
-        // Sort descending
-        userActivityData.sort((a,b) => b.count - a.count);
-        
-        var userOptions = {
-            series: [{ name: 'Total Tindakan (Log)', data: userActivityData.map(u => u.count) }],
-            chart: { type: 'bar', height: 250, toolbar: { show: false } },
-            plotOptions: { bar: { borderRadius: 4, distributed: true, dataLabels: { position: 'top' } } },
-            colors: ['#0d6efd', '#198754', '#ffc107', '#dc3545', '#0dcaf0'],
-            dataLabels: { enabled: true, offsetY: -20, style: { fontSize: '12px', colors: ["#304758"] } },
-            xaxis: { categories: userActivityData.map(u => u.nama) },
-            legend: { show: false }
-        };
-        new ApexCharts(document.querySelector("#chart-user-activity"), userOptions).render();
-    }
 });
 </script>
 <?= $this->endSection() ?>

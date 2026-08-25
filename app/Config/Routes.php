@@ -89,6 +89,10 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->put('users/update/(:num)', 'Admin\UserController::update/$1');
     $routes->delete('users/delete/(:num)', 'Admin\UserController::destroy/$1');
 
+    // Manajemen Website (Background Hero)
+    $routes->get('website', 'Admin\WebsiteController::index');
+    $routes->post('website/simpan-hero', 'Admin\WebsiteController::simpanHero');
+
     // Profil Admin
     $routes->get('profil', 'Admin\ProfilController::index');
     $routes->post('profil/update', 'Admin\ProfilController::update');

@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\@UNDERGROUND DEV\\SiWisata Balam\\logs\\.7429d00fcc6950e7b9a6d6ced7894a3e7562d6ab-audit.json",
+    "files": [
+        {
+            "date": 1787623146894,
+            "name": "D:\\@UNDERGROUND DEV\\SiWisata Balam\\logs\\error-2026-08-25.log",
+            "hash": "5fcee498aeb7d8dfbca7ad37de694d0c61783b334a496648a944f0d3e2aa47f6"
+        },
+        {
+            "date": 1787677785707,
+            "name": "D:\\@UNDERGROUND DEV\\SiWisata Balam\\logs\\error-2026-08-26.log",
+            "hash": "285f5e27d337b2e427ea074c5b99b2e5914d008c14cf4cbe7f60116c13c85042"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -108,7 +108,9 @@ Manajemen Destinasi Wisata
             </div>
         </div>
 
-        <div id="destinasi-table"></div>
+        <div class="table-scroll">
+            <div id="destinasi-table"></div>
+        </div>
     </div>
 </div>
 

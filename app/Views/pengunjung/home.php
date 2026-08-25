@@ -131,7 +131,7 @@
             <?php foreach ($destinasi as $i => $d): ?>
                 <div class="packages-item">
                     <div class="packages-img position-relative">
-                        <img src="<?= $d['thumbnail'] ? base_url('uploads/thumbnail/' . $d['thumbnail']) : base_url('assets/img/packages-1.jpg') ?>"
+                        <img src="<?= gambar_url('thumbnail', $d['thumbnail']) ?>"
                             class="img-fluid w-100 rounded-top skeleton-effect"
                             style="height: 250px; object-fit: cover;"
                             loading="lazy" onload="this.classList.remove('skeleton-effect')"
@@ -151,7 +151,7 @@
                             </small>
                         </div>
                         <div class="packages-price py-2 px-4" style="width: fit-content; min-width: 100px; white-space: nowrap;">
-                            <?= esc($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket']) ? 'Gratis' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket'])) ?>
+                            <?= esc($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket']) ? 'Gratis / Rp 0' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket'])) ?>
                         </div>
                     </div>
                     <div class="packages-content bg-light">
@@ -234,15 +234,15 @@
                     ?>
                         <div class="col-sm-6 col-md-4 col-lg-3">
                             <div class="gallery-item h-100">
-                                <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit: cover; min-height: 200px;" loading="lazy" onload="this.classList.remove('skeleton-effect')" alt="<?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?>">
+                                <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit: cover; min-height: 200px;" loading="lazy" onload="this.classList.remove('skeleton-effect')" alt="<?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?>">
                                 <div class="gallery-content">
                                     <div class="gallery-info">
                                         <h5 class="text-white text-uppercase mb-2 text-truncate" style="max-width: 150px;"><?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?></h5>
-                                        <a href="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" data-lightbox="gallery-all" class="btn-hover text-white">Perbesar <i class="fa fa-arrow-right ms-2"></i></a>
+                                        <a href="<?= gambar_url('galeri', $g['nama_file']) ?>" data-lightbox="gallery-all" class="btn-hover text-white">Perbesar <i class="fa fa-arrow-right ms-2"></i></a>
                                     </div>
                                 </div>
                                 <div class="gallery-plus-icon">
-                                    <a href="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" data-lightbox="gallery-all" class="my-auto"><i class="fas fa-plus fa-2x text-white"></i></a>
+                                    <a href="<?= gambar_url('galeri', $g['nama_file']) ?>" data-lightbox="gallery-all" class="my-auto"><i class="fas fa-plus fa-2x text-white"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -266,15 +266,15 @@
                         ?>
                                 <div class="col-sm-6 col-md-4 col-lg-4">
                                     <div class="gallery-item h-100">
-                                        <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit: cover; min-height: 250px;" loading="lazy" onload="this.classList.remove('skeleton-effect')" alt="<?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?>">
+                                        <img src="<?= gambar_url('galeri', $g['nama_file']) ?>" class="img-fluid w-100 h-100 rounded skeleton-effect" style="object-fit: cover; min-height: 250px;" loading="lazy" onload="this.classList.remove('skeleton-effect')" alt="<?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?>">
                                         <div class="gallery-content">
                                             <div class="gallery-info">
                                                 <h5 class="text-white text-uppercase mb-2 text-truncate" style="max-width: 200px;"><?= esc($g['nama_wisata'] ?? 'Galeri Wisata') ?></h5>
-                                                <a href="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" data-lightbox="gallery-<?= $k['id'] ?>" class="btn-hover text-white">Perbesar <i class="fa fa-arrow-right ms-2"></i></a>
+                                                <a href="<?= gambar_url('galeri', $g['nama_file']) ?>" data-lightbox="gallery-<?= $k['id'] ?>" class="btn-hover text-white">Perbesar <i class="fa fa-arrow-right ms-2"></i></a>
                                             </div>
                                         </div>
                                         <div class="gallery-plus-icon">
-                                            <a href="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>" data-lightbox="gallery-<?= $k['id'] ?>" class="my-auto"><i class="fas fa-plus fa-2x text-white"></i></a>
+                                            <a href="<?= gambar_url('galeri', $g['nama_file']) ?>" data-lightbox="gallery-<?= $k['id'] ?>" class="my-auto"><i class="fas fa-plus fa-2x text-white"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -309,8 +309,8 @@
                                 <div class="guide-img-efects">
                                     <?php
                                     $avatar = base_url('assets/img/guide-' . (($idx % 4) + 1) . '.jpg');
-                                    if (!empty($admin['foto_profil']) && file_exists(FCPATH . 'uploads/profil/' . $admin['foto_profil'])) {
-                                        $avatar = base_url('uploads/profil/' . $admin['foto_profil']);
+                                    if (!empty($admin['foto_profil'])) {
+                                        $avatar = gambar_url('profil', $admin['foto_profil']);
                                     }
                                     ?>
                                     <img src="<?= $avatar ?>" class="img-fluid w-100 rounded-top skeleton-effect" loading="lazy" onload="this.classList.remove('skeleton-effect')" style="object-fit:cover; height:300px;" alt="<?= esc($admin['nama']) ?>">

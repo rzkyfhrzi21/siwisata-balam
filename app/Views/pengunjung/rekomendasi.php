@@ -107,7 +107,7 @@
                     <?php foreach ($destinasi as $i => $d): ?>
                         <div class="packages-item">
                             <div class="packages-img position-relative">
-                                <img src="<?= $d['thumbnail'] ? base_url('uploads/thumbnail/' . $d['thumbnail']) : base_url('assets/img/packages-1.jpg') ?>"
+                                <img src="<?= gambar_url('thumbnail', $d['thumbnail']) ?>"
                                     class="img-fluid w-100 rounded-top skeleton-effect"
                                     style="height: 250px; object-fit: cover;"
                                     loading="lazy" onload="this.classList.remove('skeleton-effect')"
@@ -115,7 +115,7 @@
                                 <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                     <small class="flex-fill text-center border-end py-2 px-2 d-flex align-items-center justify-content-center" style="min-width: 0; width: 33.33%;">
                                         <i class="fa fa-ticket-alt me-2 flex-shrink-0"></i>
-                                        <?php $hargaText = ($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket'])) ? 'Gratis' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket']); ?>
+                                        <?php $hargaText = ($d['harga_tiket'] == 0 || strtolower($d['harga_tiket'] ?? '') == 'gratis' || empty($d['harga_tiket'])) ? 'Gratis / Rp 0' : (is_numeric($d['harga_tiket']) ? 'Rp ' . number_format($d['harga_tiket'], 0, ',', '.') : $d['harga_tiket']); ?>
                                         <span class="text-truncate" title="<?= esc($hargaText) ?>"><?= esc($hargaText) ?></span>
                                     </small>
                                     <small class="flex-fill text-center border-end py-2 px-2 d-flex align-items-center justify-content-center" style="min-width: 0; width: 33.33%;">

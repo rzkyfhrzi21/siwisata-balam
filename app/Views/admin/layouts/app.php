@@ -80,47 +80,49 @@
         padding: 1.5rem !important;
       }
       .toast {
-        background: rgba(255, 255, 255, 0.85) !important;
+        --toast-duration: 5000ms;
+        background: rgba(255, 255, 255, 0.92) !important;
         backdrop-filter: blur(12px) saturate(180%);
         -webkit-backdrop-filter: blur(12px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.45) !important;
-        border-radius: 16px !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 15px 35px rgba(13, 110, 253, 0.10), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
         overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        animation: toast-entrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: toast-entrance 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       }
       [data-bs-theme="dark"] .toast {
-        background: rgba(30, 30, 30, 0.8) !important;
+        background: rgba(30, 30, 30, 0.92) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(255, 255, 255, 0.05) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2) !important;
       }
       @keyframes toast-entrance {
         from {
           opacity: 0;
-          transform: translateY(-20px) scale(0.9);
+          transform: translateX(40px) scale(0.95);
         }
         to {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translateX(0) scale(1);
         }
       }
+      /* Warna mengikuti palet tema admin (Bootstrap variables) */
       .toast.toast-success {
-        border-left: 6px solid #10b981 !important;
+        border-left: 6px solid var(--bs-success, #198754) !important;
       }
       .toast.toast-danger {
-        border-left: 6px solid #f43f5e !important;
+        border-left: 6px solid var(--bs-danger, #dc3545) !important;
       }
       .toast.toast-warning {
-        border-left: 6px solid #f59e0b !important;
+        border-left: 6px solid var(--bs-warning, #ffc107) !important;
       }
       .toast.toast-info {
-        border-left: 6px solid #3b82f6 !important;
+        border-left: 6px solid var(--bs-info, #0dcaf0) !important;
       }
       .toast-header {
         background: transparent !important;
         border-bottom: none !important;
-        padding: 12px 16px 6px 16px !important;
+        padding: 12px 16px 4px 16px !important;
         display: flex;
         align-items: center;
       }
@@ -129,37 +131,125 @@
         font-size: 0.95rem !important;
         letter-spacing: -0.01em;
       }
-      .toast-header .bi {
-        font-size: 1.2rem !important;
+      /* Badge ikon bulat ala AdminLTE */
+      .toast-icon-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+        margin-right: 10px;
+      }
+      .toast-success .toast-icon-badge {
+        background: var(--bs-success-bg-subtle, #d1e7dd);
+        color: var(--bs-success, #198754);
+      }
+      .toast-danger .toast-icon-badge {
+        background: var(--bs-danger-bg-subtle, #f8d7da);
+        color: var(--bs-danger, #dc3545);
+      }
+      .toast-warning .toast-icon-badge {
+        background: var(--bs-warning-bg-subtle, #fff3cd);
+        color: #664d03;
+      }
+      .toast-info .toast-icon-badge {
+        background: var(--bs-info-bg-subtle, #cff4fc);
+        color: #055160;
+      }
+      .toast-success .toast-title { color: var(--bs-success, #198754) !important; }
+      .toast-danger  .toast-title { color: var(--bs-danger, #dc3545) !important; }
+      .toast-warning .toast-title { color: #997404 !important; }
+      .toast-info    .toast-title { color: #055160 !important; }
+      .toast-time {
+        font-size: 0.75rem;
+        color: #6c757d;
+        white-space: nowrap;
+      }
+      [data-bs-theme="dark"] .toast-time,
+      [data-bs-theme="dark"] .toast-body {
+        color: #adb5bd !important;
       }
       .toast-body {
-        padding: 6px 16px 14px 16px !important;
-        font-size: 0.9rem !important;
-        color: #4b5563 !important;
-        line-height: 1.5;
-      }
-      [data-bs-theme="dark"] .toast-body {
-        color: #d1d5db !important;
-      }
-      .toast-success .toast-header strong, .toast-success .toast-header i {
-        color: #10b981 !important;
-      }
-      .toast-danger .toast-header strong, .toast-danger .toast-header i {
-        color: #f43f5e !important;
-      }
-      .toast-warning .toast-header strong, .toast-warning .toast-header i {
-        color: #f59e0b !important;
-      }
-      .toast-info .toast-header strong, .toast-info .toast-header i {
-        color: #3b82f6 !important;
+        padding: 0 16px 14px 60px !important;
+        font-size: 0.875rem !important;
+        color: #495057 !important;
+        line-height: 1.55;
       }
       .toast .btn-close {
-        background-size: 0.8rem;
-        opacity: 0.5;
+        margin-left: auto !important;
+        background-size: 0.7rem;
+        opacity: 0.45;
         transition: opacity 0.2s ease;
       }
       .toast .btn-close:hover {
-        opacity: 0.8;
+        opacity: 0.9;
+      }
+      /* Progress bar hitung mundur sebelum toast tersembunyi otomatis */
+      .toast-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 4px;
+        width: 100%;
+        transform-origin: left;
+        animation: toast-progress-shrink var(--toast-duration) linear forwards;
+      }
+      .toast-success .toast-progress { background: var(--bs-success, #198754); }
+      .toast-warning .toast-progress { background: var(--bs-warning, #ffc107); }
+      .toast-info    .toast-progress { background: var(--bs-info, #0dcaf0); }
+      @keyframes toast-progress-shrink {
+        from { transform: scaleX(1); }
+        to   { transform: scaleX(0); }
+      }
+    </style>
+
+    <!-- Dark Mode Fixes: teks chart & card agar tetap terbaca -->
+    <style>
+      /* Teks sumbu & label ApexCharts (SVG) mengikuti warna body saat mode gelap.
+         CSS dengan !important mampu menimpa fill/inline style bawaan ApexCharts
+         maupun warna hardcode (mis. #333, #304758) dari konfigurasi chart. */
+      [data-bs-theme="dark"] .apexcharts-canvas text {
+        fill: #ced4da !important;
+        color: #ced4da !important;
+      }
+      [data-bs-theme="dark"] .apexcharts-legend-text {
+        color: #ced4da !important;
+      }
+      [data-bs-theme="dark"] .apexcharts-datalabel,
+      [data-bs-theme="dark"] .apexcharts-datalabels-group text {
+        fill: #e9ecef !important;
+        color: #e9ecef !important;
+      }
+      [data-bs-theme="dark"] .apexcharts-gridline {
+        stroke: rgba(255, 255, 255, 0.08);
+      }
+      [data-bs-theme="dark"] .apexcharts-xaxis-tick,
+      [data-bs-theme="dark"] .apexcharts-yaxis-tick {
+        stroke: rgba(255, 255, 255, 0.15);
+      }
+
+      /* Card header ber-bg-light tetap gelap agar judul terbaca di mode gelap */
+      [data-bs-theme="dark"] .card-header.bg-light {
+        background-color: var(--bs-body-bg) !important;
+        border-bottom-color: var(--bs-border-color) !important;
+      }
+
+      /* Tabel admin di mode mobile: jangan menciutkan kolom,
+         normalkan lebar lalu geser kanan-kiri dengan scrollbar */
+      @media (max-width: 767.98px) {
+        .table-scroll {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+        .table-scroll .tabulator {
+          min-width: 720px;
+        }
+        .table-scroll .table-responsive {
+          overflow-x: visible; /* scroll ditangani .table-scroll */
+        }
       }
     </style>
   </head>
@@ -210,46 +300,40 @@
     <!--end::App Wrapper-->
     <!--begin::Toast Container-->
     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1060;">
-        <?php if (session()->getFlashdata('success')) : ?>
-        <div id="toastSuccess" class="toast toast-success" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <i class="bi bi-check-circle me-2 text-success"></i>
-                <strong class="me-auto text-success">Berhasil</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body"><?= session()->getFlashdata('success') ?></div>
-        </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('error')) : ?>
-        <div id="toastDanger" class="toast toast-danger" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <i class="bi bi-exclamation-circle me-2 text-danger"></i>
-                <strong class="me-auto text-danger">Gagal</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body"><?= session()->getFlashdata('error') ?></div>
-        </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('warning')) : ?>
-        <div id="toastWarning" class="toast toast-warning" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <i class="bi bi-exclamation-triangle me-2 text-warning"></i>
-                <strong class="me-auto text-warning">Peringatan</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body"><?= session()->getFlashdata('warning') ?></div>
-        </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('info')) : ?>
-        <div id="toastInfo" class="toast toast-info" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <i class="bi bi-info-circle me-2 text-info"></i>
-                <strong class="me-auto text-info">Info</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body"><?= session()->getFlashdata('info') ?></div>
-        </div>
-        <?php endif; ?>
+        <?php
+        // Konfigurasi tampilan tiap tipe toast:
+        // - success/warning/info : auto-hide 5 detik dengan progress bar hitung mundur.
+        // - danger               : TIDAK auto-hide, ditutup manual via tombol silang.
+        $toastTypes = [
+            'success' => ['id' => 'toastSuccess', 'icon' => 'bi-check-circle-fill',       'title' => 'Berhasil'],
+            'error'   => ['id' => 'toastDanger',  'icon' => 'bi-exclamation-circle-fill', 'title' => 'Gagal'],
+            'warning' => ['id' => 'toastWarning', 'icon' => 'bi-exclamation-triangle-fill', 'title' => 'Peringatan'],
+            'info'    => ['id' => 'toastInfo',    'icon' => 'bi-info-circle-fill',        'title' => 'Informasi'],
+        ];
+        $mapClass = ['success' => 'success', 'error' => 'danger', 'warning' => 'warning', 'info' => 'info'];
+        ?>
+        <?php foreach ($toastTypes as $flashKey => $cfg): ?>
+            <?php if ($pesan = session()->getFlashdata($flashKey)): ?>
+                <?php $isDanger = $flashKey === 'error'; ?>
+                <div id="<?= $cfg['id'] ?>"
+                     class="toast toast-<?= $mapClass[$flashKey] ?>"
+                     role="alert"
+                     aria-live="assertive"
+                     aria-atomic="true"
+                     data-autohide="<?= $isDanger ? 'false' : 'true' ?>">
+                    <div class="toast-header">
+                        <span class="toast-icon-badge"><i class="bi <?= $cfg['icon'] ?>"></i></span>
+                        <strong class="me-1 toast-title"><?= $cfg['title'] ?></strong>
+                        <small class="toast-time me-auto"><i class="bi bi-clock me-1"></i><?= date('H:i') ?> WIB</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Tutup"></button>
+                    </div>
+                    <div class="toast-body"><?= $pesan ?></div>
+                    <?php if (!$isDanger): ?>
+                        <div class="toast-progress"></div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
     <!--end::Toast Container-->
     <!--begin::Script-->
@@ -368,9 +452,20 @@
     <!--begin::Toast Initialization-->
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const toastElList = document.querySelectorAll('.toast');
-        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, { delay: 5000 }));
-        toastList.forEach(toast => toast.show());
+        document.querySelectorAll('.toast').forEach(function (toastEl) {
+          const autohide = toastEl.dataset.autohide !== 'false';
+
+          // Sinkronkan durasi progress bar CSS dengan delay Bootstrap.
+          const delay = 2000;
+          if (autohide) {
+            toastEl.style.setProperty('--toast-duration', delay + 'ms');
+          }
+
+          new bootstrap.Toast(toastEl, {
+            delay: delay,
+            autohide: autohide
+          }).show();
+        });
       });
     </script>
     <!--end::Toast Initialization-->

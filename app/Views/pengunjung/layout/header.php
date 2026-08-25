@@ -61,6 +61,21 @@
 
     <!-- Template Stylesheet -->
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
+
+    <?php
+    // Override background breadcrumb dengan gambar kelola admin.
+    // WAJIB berada SETELAH style.css agar menimpa rule default template.
+    $heroUmumUrl = hero_url('hero_umum', 'assets/img/breadcrumb-bg.jpg');
+    ?>
+    <style>
+        .bg-breadcrumb {
+            background: linear-gradient(rgba(19, 53, 123, 0.5), rgba(19, 53, 123, 0.5)), url('<?= $heroUmumUrl ?>') !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 
 <body>
@@ -121,7 +136,7 @@
                     </ol>
                     <div class="carousel-inner" role="listbox">
                         <div class="carousel-item active">
-                            <img src="<?= base_url('assets/img/carousel-2.jpg') ?>" class="img-fluid" alt="Image">
+                            <img src="<?= hero_url('hero_index_1', 'assets/img/carousel-2.jpg') ?>" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
                                     <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Jelajahi Bandar Lampung</h4>
@@ -135,7 +150,7 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="<?= base_url('assets/img/carousel-1.jpg') ?>" class="img-fluid" alt="Image">
+                            <img src="<?= hero_url('hero_index_2', 'assets/img/carousel-1.jpg') ?>" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
                                     <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Peta Pariwisata Cerdas</h4>
@@ -149,7 +164,7 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="<?= base_url('assets/img/carousel-3.jpg') ?>" class="img-fluid" alt="Image">
+                            <img src="<?= hero_url('hero_index_3', 'assets/img/carousel-3.jpg') ?>" class="img-fluid" alt="Image">
                             <div class="carousel-caption">
                                 <div class="p-3" style="max-width: 900px;">
                                     <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Rencanakan Liburan Anda</h4>

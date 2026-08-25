@@ -131,8 +131,8 @@
                                 <div class="guide-img-efects">
                                     <?php
                                     // Fallback to template's guide image if no foto_profil
-                                    $foto = !empty($admin['foto_profil']) && file_exists(FCPATH . 'uploads/profil/' . $admin['foto_profil'])
-                                        ? base_url('uploads/profil/' . $admin['foto_profil'])
+                                    $foto = !empty($admin['foto_profil'])
+                                        ? gambar_url('profil', $admin['foto_profil'])
                                         : base_url('assets/img/guide-1.jpg');
                                     ?>
                                     <img src="<?= $foto ?>" class="img-fluid w-100 rounded-top skeleton-effect" style="height: 300px; object-fit: cover;" alt="<?= esc($admin['nama']) ?>" loading="lazy" onload="this.classList.remove('skeleton-effect')">

@@ -50,37 +50,16 @@ class UserController extends BaseController
     public function index()
     {
         // (1) Ambil seluruh data admin dari database.
-        $users    = $this->adminModel->findAll();
-        $logModel = new \App\Models\ActivityLogModel();
-        
-        // (2) Hitung tingkat keaktifan tiap admin berdasarkan log.
-        $userActivity = [];
+        $users = $this->adminModel->findAll();
 
-        foreach ($users as &$u) {
-
-            // Hitung jumlah aktivitas di tabel log milik admin ini.
-            $count = $logModel->where('user_id', $u['id'])->countAllResults();
-
-            $u['activity_count'] = $count;
-            
-            // Jika admin memiliki aktivitas, masukkan ke dalam data grafik.
-            if ($count > 0) {
-                $userActivity[] = [
-                    'nama'  => $u['nama'],
-                    'count' => $count
-                ];
-            }
-        }
-
-        // (3) Bungkus seluruh data ke dalam
+        // (2) Bungkus seluruh data ke dalam
         // satu keranjang/variabel bernama $data.
         $data = [
-            'title'        => 'Manajemen Admin',
-            'users'        => $users,
-            'userActivity' => $userActivity
+            'title' => 'Manajemen Admin',
+            'users' => $users,
         ];
-        
-        // (4) Kembalikan (return) hasil proses ini dengan memuat (view)
+
+        // (3) Kembalikan (return) hasil proses ini dengan memuat (view)
         // file halaman 'admin/users/index.php'.
         return view('admin/users/index', $data);
     }

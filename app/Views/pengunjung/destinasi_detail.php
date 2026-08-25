@@ -33,15 +33,13 @@
             <!-- Kolom kiri: foto utama + galeri -->
             <div class="col-lg-7">
                 <!-- Foto Utama -->
-                <?php if ($wisata['thumbnail']): ?>
-                    <div class="destination-img mb-4" style="height: 420px; overflow: hidden; border-radius: 10px;">
-                        <img src="<?= base_url('uploads/thumbnail/' . $wisata['thumbnail']) ?>"
-                            class="img-fluid w-100 h-100 rounded skeleton-effect"
-                            style="object-fit: cover;"
-                            loading="lazy" onload="this.classList.remove('skeleton-effect')"
-                            alt="<?= esc($wisata['nama_wisata']) ?>">
-                    </div>
-                <?php endif; ?>
+                <div class="destination-img mb-4" style="height: 420px; overflow: hidden; border-radius: 10px;">
+                    <img src="<?= gambar_url('thumbnail', $wisata['thumbnail']) ?>"
+                        class="img-fluid w-100 h-100 rounded skeleton-effect"
+                        style="object-fit: cover;"
+                        loading="lazy" onload="this.classList.remove('skeleton-effect')"
+                        alt="<?= esc($wisata['nama_wisata']) ?>">
+                </div>
 
                 <!-- Galeri Foto (Lightbox) -->
                 <?php if (!empty($galeri)): ?>
@@ -51,16 +49,16 @@
                     </div>
                     <div class="row g-2">
                         <?php foreach ($galeri as $g): ?>
-                            <?php if ($g['tipe_file'] === 'foto'): ?>
+                            <?php if ($g['tipe_file'] === 'foto' || !file_upload_ada('galeri', $g['nama_file'])): ?>
                                 <div class="col-6 col-md-4">
                                     <div class="gallery-item" style="height: 180px; overflow: hidden; border-radius: 8px; position: relative;">
-                                        <img src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>"
+                                        <img src="<?= gambar_url('galeri', $g['nama_file']) ?>"
                                             class="img-fluid w-100 h-100 rounded skeleton-effect"
                                             style="object-fit: cover;"
                                             loading="lazy" onload="this.classList.remove('skeleton-effect')"
                                             alt="<?= esc($wisata['nama_wisata']) ?>">
                                         <div class="gallery-plus-icon">
-                                            <a href="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>"
+                                            <a href="<?= gambar_url('galeri', $g['nama_file']) ?>"
                                                 data-lightbox="galeri-<?= $wisata['id'] ?>"
                                                 data-title="<?= esc($wisata['nama_wisata']) ?>"
                                                 class="my-auto">
@@ -72,7 +70,7 @@
                             <?php elseif ($g['tipe_file'] === 'video'): ?>
                                 <div class="col-12">
                                     <video controls class="w-100 rounded mb-2">
-                                        <source src="<?= base_url('uploads/galeri/' . $g['nama_file']) ?>">
+                                        <source src="<?= gambar_url('galeri', $g['nama_file']) ?>">
                                         Browser Anda tidak mendukung pemutar video.
                                     </video>
                                 </div>
@@ -97,6 +95,22 @@
                 <p class="mb-4"><?= nl2br(esc($wisata['deskripsi'])) ?></p>
 
                 <!-- Info Detail -->
+                <?php
+                $isKuliner = $kategori && (
+                    stripos($kategori['nama_kategori'], 'kuliner') !== false
+                    || ($kategori['slug'] ?? '') === 'wisata-kuliner'
+                );
+
+                $hargaRaw  = trim((string)($wisata['harga_tiket'] ?? ''));
+                $isGratis  = $hargaRaw === '' || $hargaRaw == 0 || strtolower($hargaRaw) === 'gratis';
+                if ($isGratis) {
+                    $hargaText = 'Gratis / Rp 0';
+                } elseif (is_numeric($hargaRaw)) {
+                    $hargaText = 'Rp ' . number_format((float)$hargaRaw, 0, ',', '.');
+                } else {
+                    $hargaText = esc($hargaRaw);
+                }
+                ?>
                 <ul class="list-unstyled mb-4">
                     <li class="mb-2">
                         <i class="fa fa-map-marker-alt text-primary me-2"></i>
@@ -111,8 +125,8 @@
                         <strong>Hari Operasional:</strong> <?= esc($wisata['hari_operasional']) ?>
                     </li>
                     <li class="mb-2">
-                        <i class="fa fa-ticket-alt text-primary me-2"></i>
-                        <strong>Tiket / Harga:</strong> <?= esc($wisata['harga_tiket']) ?>
+                        <i class="fa <?= $isKuliner ? 'fa-utensils' : 'fa-ticket-alt' ?> text-primary me-2"></i>
+                        <strong><?= $isKuliner ? 'Harga Makanan:' : 'Tiket / Harga:' ?></strong> <?= $hargaText ?>
                     </li>
                 </ul>
 
@@ -141,20 +155,22 @@
                     </div>
                 <?php endif; ?>
 
-                <!-- Tombol Pesan Tiket via WA -->
+                <!-- Tombol Pesan Tiket / Reservasi via WA -->
                 <?php if ($kontak && !empty($kontak['has_ticket_feature']) && !empty($kontak['nomor_whatsapp'])): ?>
                     <?php
                     $nomorWA  = preg_replace('/[^0-9]/', '', $kontak['nomor_whatsapp']);
-                    $pesan    = urlencode("Halo kak, saya ingin bertanya/memesan tiket untuk {$wisata['nama_wisata']}. Mohon informasinya ya 🙏");
-                    $linkWA   = "https://wa.me/{$nomorWA}?text={$pesan}";
+                    $pesan    = $isKuliner
+                        ? "Halo kak, saya ingin melakukan reservasi di {$wisata['nama_wisata']}. Mohon informasinya ya 🙏"
+                        : "Halo kak, saya ingin bertanya/memesan tiket untuk {$wisata['nama_wisata']}. Mohon informasinya ya 🙏";
+                    $linkWA   = "https://wa.me/{$nomorWA}?text=" . urlencode($pesan);
                     ?>
                     <a href="<?= $linkWA ?>" target="_blank" rel="noopener"
                         class="btn btn-success rounded-pill py-3 px-5 mt-2 w-100">
-                        <i class="fab fa-whatsapp me-2"></i>Pesan Tiket via WhatsApp
+                        <i class="fab fa-whatsapp me-2"></i><?= $isKuliner ? 'Reservasi via WhatsApp' : 'Pesan Tiket via WhatsApp' ?>
                     </a>
                 <?php else: ?>
                     <button class="btn btn-secondary rounded-pill py-3 px-3 mt-2 w-100" style="cursor: not-allowed; opacity: 0.8;" disabled>
-                        <i class="fa fa-info-circle me-1"></i>Pesan tiket online tidak tersedia, silakan langsung menuju lokasi.
+                        <i class="fa fa-info-circle me-1"></i><?= $isKuliner ? 'Reservasi online tidak tersedia, silakan langsung menuju lokasi.' : 'Pesan tiket online tidak tersedia, silakan langsung menuju lokasi.' ?>
                     </button>
                 <?php endif; ?>
 

@@ -73,7 +73,9 @@ Activity Log
             </div>
         </div>
 
-        <div id="logs-table"></div>
+        <div class="table-scroll">
+            <div id="logs-table"></div>
+        </div>
     </div>
 </div>
 <?= $this->endSection() ?>

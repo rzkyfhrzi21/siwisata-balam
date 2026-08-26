@@ -30,12 +30,29 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
-            **/.github*/**
+            **/.github/**
+            **/.claude/**
+            **/.codex/**
+            **/@agents/**
+            **/docs/**
+            **/node_modules/**
+            **/tests/**
+            **/Zzz/**
+            **/logs/**
             **/db/**
             **/referensi/**
-            **/*.sql
-            **/Zzz/**
-            **/README.md
             **/laporan/**
-            **/@agents/**
-            **/.env
+            **/*.sql
+            **/AGENTS.md
+            **/CLAUDE.md
+            **/GEMINI.md
+            **/KONSEP MVC.md
+            **/Catatan Terminal.txt
+            **/README.md
+            **/LICENSE
+            **/package*.json
+            **/phpunit.dist.xml
+            **/serve.bat
+            **/security-warning.js
+            **/.env*
+            **/env.production

@@ -18,7 +18,19 @@ jobs:
         with:
           fetch-depth: 2
 
-      # Langkah 2: Sync file ke Hosting via FTP
+      # Langkah 2: Setup PHP & Composer di GitHub Actions Runner
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, mysqli, gd, curl
+          coverage: none
+
+      # Langkah 3: Install Dependensi Vendor CodeIgniter 4
+      - name: 📦 Install Dependencies (Vendor)
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      # Langkah 4: Sync file ke Hosting via FTP
       - name: 📁 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

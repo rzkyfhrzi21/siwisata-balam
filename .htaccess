@@ -4,10 +4,7 @@ Options -Indexes
 # 2. Aktifkan modul rewrite Apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Jika URL yang diakses belum mengarah ke folder /public/
+    RewriteRule ^$ public/ [L]
     RewriteCond %{REQUEST_URI} !^/public/
-    
-    # Arahkan (rewrite) semua request ke folder public/ secara tersembunyi
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

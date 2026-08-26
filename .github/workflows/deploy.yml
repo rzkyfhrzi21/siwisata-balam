@@ -1,4 +1,4 @@
-name: Deploy to Production (SSH Rsync)
+name: Deploy to Production (FTP)
 
 # Memicu deployment otomatis setiap kali push ke branch master
 on:
@@ -7,27 +7,35 @@ on:
       - master
 
 jobs:
-  production-deploy:
-    name: 🚀 Deploy to Server
+  web-deploy:
+    name: 🚀 Deploy via FTP
     runs-on: ubuntu-latest
 
     steps:
       # Langkah 1: Mengambil kode terbaru dari repositori GitHub
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
-
-      # Langkah 2: Deploy menggunakan Rsync over SSH
-      - name: 🚀 Deploy via Rsync
-        uses: easingthemes/ssh-deploy@main
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-          PORT: ${{ secrets.SSH_PORT }}
-          ARGS: "-rlgoDzvO --delete"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          # TARGET: Lokasi penyimpanan path direktori hosting (diambil dari GitHub Secrets)
-          TARGET: ${{ secrets.SSH_TARGET_DIR }}
-          # Mengecualikan file sensitif, git, dan folder lokal agar tidak menimpa file hosting yang tidak perlu
-          EXCLUDE: "/.git/, /.github/, /db/, /referensi/, *.sql, /Zzz/, README.md, /laporan/, /@agents/, .env"
+          fetch-depth: 2
+
+      # Langkah 2: Sync file ke Hosting via FTP
+      - name: 📁 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER || 'ftp.666.mikrosite.web.id' }}
+          username: ${{ secrets.FTP_USERNAME || 'siwisata-balam@siwisata-balam.666.mikrosite.web.id' }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          protocol: ftp
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github*/**
+            **/db/**
+            **/referensi/**
+            **/*.sql
+            **/Zzz/**
+            **/README.md
+            **/laporan/**
+            **/@agents/**
+            **/.env

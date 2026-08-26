@@ -1,5 +1,6 @@
-name: Deploy to Production (SSH Tar)
+name: Deploy to Production (SSH Rsync)
 
+# Memicu deployment otomatis setiap kali push ke branch master
 on:
   push:
     branches:
@@ -7,73 +8,26 @@ on:
 
 jobs:
   production-deploy:
-    name: 🚀 Deploy to cPanel
+    name: 🚀 Deploy to Server
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Ambil kode terbaru dari GitHub
+      # Langkah 1: Mengambil kode terbaru dari repositori GitHub
       - name: 🚚 Get latest code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Setup environment PHP
-      - name: 🛠️ Setup PHP
-        uses: shivammathur/setup-php@v2
+      # Langkah 2: Deploy menggunakan Rsync over SSH
+      - name: 🚀 Deploy via Rsync
+        uses: easingthemes/ssh-deploy@main
         with:
-          php-version: "8.2"
-
-      # 3. Install composer dependencies
-      - name: 📦 Install composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      # 4. Kompres file proyek dengan mengecualikan folder/file sensitif & dinamis
-      - name: 📦 Compress files
-        run: |
-          tar -czvf ../deploy.tar.gz \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.rtk' \
-            --exclude='@agents' \
-            --exclude='db' \
-            --exclude='laporan' \
-            --exclude='referensi' \
-            --exclude='*.sql' \
-            --exclude='Zzz' \
-            --exclude='docs' \
-            --exclude='tests' \
-            --exclude='node_modules' \
-            --exclude='package.json' \
-            --exclude='package-lock.json' \
-            --exclude='README.md' \
-            --exclude='.env' \
-            --exclude='writable/cache/*' \
-            --exclude='writable/logs/*' \
-            --exclude='writable/session/*' \
-            --exclude='writable/uploads/*' \
-            --exclude='writable/debugbar/*' \
-            --exclude='public/uploads/*' \
-            .
-          mv ../deploy.tar.gz .
-
-      # 5. Unggah file tar.gz ke server cPanel
-      - name: 🚀 Upload via SCP
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "deploy.tar.gz"
-          target: "/home/uucdjd7c/siwisata-balam.web.id" # TODO: Sesuaikan dengan target cPanel Anda
-
-      # 6. Ekstrak file tar.gz di server dan bersihkan arsipnya
-      - name: 🛠️ Extract on Server
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /home/uucdjd7c/siwisata-balam.web.id
-            tar -xzvf deploy.tar.gz
-            rm deploy.tar.gz
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+          PORT: ${{ secrets.SSH_PORT }}
+          ARGS: "-rlgoDzvO --delete"
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          # TARGET: Lokasi penyimpanan path direktori hosting (diambil dari GitHub Secrets)
+          TARGET: ${{ secrets.SSH_TARGET_DIR }}
+          # Mengecualikan file sensitif, git, dan folder lokal agar tidak menimpa file hosting yang tidak perlu
+          EXCLUDE: "/.git/, /.github/, /db/, /referensi/, *.sql, /Zzz/, README.md, /laporan/, /@agents/, .env"
